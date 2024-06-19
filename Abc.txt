@@ -1,0 +1,157 @@
+import React, { useState } from 'react';
+import {
+  Container,
+  Box,
+  TextField,
+  Button,
+  Typography,
+  IconButton,
+  AppBar,
+  Toolbar,
+  CssBaseline
+} from '@mui/material';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import logo from './logo.png';
+import profilePic from './profile-pic.jpg';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#ba0c2f',
+    },
+    secondary: {
+      main: '#fff',
+    },
+  },
+  typography: {
+    fontFamily: 'Lato, Calibri, sans-serif',
+  },
+});
+
+function App() {
+  const [formData, setFormData] = useState({
+    adminCredentials: { cameraUsername: '', eapPassword: '' },
+    venafiConfigurations: {
+      venafiUsername: '', venafiPassword: '', venafiPrivateKeyPassword: '',
+      venafiBaseUrl: '', certPrefix: '', includeChain: '', includePrivateKey: ''
+    },
+    directoryConfigurations: {
+      hmLogdir: '', camTriageLog: '', inputFolder: '',
+      certPath: '', tmpFolder: ''
+    },
+    hmConfigurations: {
+      hmCamLog: '', hmDbCamLog: '', packetSize: '',
+      nvrPshellScriptPath: '', psexec: ''
+    },
+    clientConfigurations: {
+      certchainFile: '', csBaseUrl: '', clientId: '',
+      clientSecret: '', redirectUrl: '', format: '', state: ''
+    },
+    epdConfigurations: { epdLogDir: '', epdLogUsername: '', epdLogPassword: '' }
+  });
+
+  const handleInputChange = (section, field, value) => {
+    setFormData({ ...formData, [section]: { ...formData[section], [field]: value } });
+  };
+
+  const saveConfiguration = () => {
+    console.log('Saving configurations to the database...', formData);
+    alert('Configurations saved!');
+  };
+
+  const renderSection = (title, fields, sectionKey) => (
+    <Box component="section" sx={{ border: '1px solid #ccc', borderRadius: 2, p: 2, m: 1, width: '100%', maxWidth: 500, boxSizing: 'border-box', position: 'relative', pt: 5 }}>
+      <Typography variant="h6" component="div" sx={{ position: 'absolute', top: -20, left: 16, backgroundColor: 'white', px: 1 }}>
+        {title}
+      </Typography>
+      {fields.map((field) => (
+        <TextField
+          key={field.name}
+          label={field.label}
+          type={field.type || 'text'}
+          fullWidth
+          margin="normal"
+          value={formData[sectionKey][field.name]}
+          onChange={(e) => handleInputChange(sectionKey, field.name, e.target.value)}
+        />
+      ))}
+    </Box>
+  );
+
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <AppBar position="static">
+        <Toolbar>
+          <Box display="flex" alignItems="center" flexGrow={1}>
+            <img src={logo} alt="Logo" style={{ width: 50, height: 50, marginRight: 10 }} />
+            <Typography variant="h6" noWrap>
+              WELLS FARGO | Building Technology Automation Utility
+            </Typography>
+          </Box>
+          <IconButton color="inherit">
+            <NotificationsIcon />
+          </IconButton>
+          <img src={profilePic} alt="Profile" style={{ width: 30, height: 30, borderRadius: '50%', marginLeft: 20 }} />
+        </Toolbar>
+      </AppBar>
+      <Box sx={{ height: 4, backgroundColor: 'yellow' }} />
+      <Container>
+        <Box mt={4} display="flex" flexWrap="wrap" justifyContent="center">
+          {renderSection('Admin Credentials', [
+            { name: 'cameraUsername', label: 'Camera Username' },
+            { name: 'eapPassword', label: 'EAP Password', type: 'password' }
+          ], 'adminCredentials')}
+          {renderSection('Venafi Configurations', [
+            { name: 'venafiUsername', label: 'Venafi Username' },
+            { name: 'venafiPassword', label: 'Venafi Password', type: 'password' },
+            { name: 'venafiPrivateKeyPassword', label: 'Venafi Private Key Password', type: 'password' },
+            { name: 'venafiBaseUrl', label: 'Venafi Base URL' },
+            { name: 'certPrefix', label: 'Cert Prefix' },
+            { name: 'includeChain', label: 'Include Chain' },
+            { name: 'includePrivateKey', label: 'Include Private Key' }
+          ], 'venafiConfigurations')}
+          {renderSection('Directory Configurations', [
+            { name: 'hmLogdir', label: 'HM Logdir' },
+            { name: 'camTriageLog', label: 'Cam Triage Log' },
+            { name: 'inputFolder', label: 'Input Folder' },
+            { name: 'certPath', label: 'Cert Path' },
+            { name: 'tmpFolder', label: 'Tmp Folder' }
+          ], 'directoryConfigurations')}
+          {renderSection('HM Configurations', [
+            { name: 'hmCamLog', label: 'HM Cam Log' },
+            { name: 'hmDbCamLog', label: 'HM dbCam Log' },
+            { name: 'packetSize', label: 'Packet Size' },
+            { name: 'nvrPshellScriptPath', label: 'NVR PShell Script Path' },
+            { name: 'psexec', label: 'psexec' }
+          ], 'hmConfigurations')}
+          {renderSection('Client Configurations', [
+            { name: 'certchainFile', label: 'Certchain file' },
+            { name: 'csBaseUrl', label: 'CS Base URL' },
+            { name: 'clientId', label: 'Client ID' },
+            { name: 'clientSecret', label: 'Client Secret', type: 'password' },
+            { name: 'redirectUrl', label: 'Redirect URL' },
+            { name: 'format', label: 'Format' },
+            { name: 'state', label: 'State' }
+          ], 'clientConfigurations')}
+          {renderSection('EPD Configurations', [
+            { name: 'epdLogDir', label: 'EPD Log Dir' },
+            { name: 'epdLogUsername', label: 'EPD Log Username' },
+            { name: 'epdLogPassword', label: 'EPD Log Password', type: 'password' }
+          ], 'epdConfigurations')}
+        </Box>
+        <Box textAlign="center" mt={4}>
+          <Button variant="contained" color="primary" onClick={saveConfiguration} sx={{ m: 1 }}>
+            Save Configuration
+          </Button>
+          <Button variant="contained" color="primary" sx={{ m: 1 }}>
+            Export Configuration
+          </Button>
+        </Box>
+      </Container>
+    </ThemeProvider>
+  );
+}
+
+export default App;
