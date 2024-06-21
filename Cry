@@ -1,0 +1,141 @@
+App.js
+
+import React, { useState } from 'react';
+import './App.css';
+
+function App() {
+  // State to manage active tab
+  const [activeTab, setActiveTab] = useState('admin');
+
+  // Function to handle tab click
+  const handleTabClick = (tab) => {
+    setActiveTab(tab);
+  };
+
+  return (
+    <div className="App">
+      <header className="App-header">
+        <h1>WELLS FARGO | Building Technology Automation Utility</h1>
+      </header>
+      <main>
+        <div className="tabs">
+          <button className={activeTab === 'admin' ? 'active' : ''} onClick={() => handleTabClick('admin')}>
+            Admin Credentials
+          </button>
+          <button className={activeTab === 'venafi' ? 'active' : ''} onClick={() => handleTabClick('venafi')}>
+            Venafi Configurations
+          </button>
+          <button className={activeTab === 'directory' ? 'active' : ''} onClick={() => handleTabClick('directory')}>
+            Directory Configurations
+          </button>
+          <button className={activeTab === 'hm' ? 'active' : ''} onClick={() => handleTabClick('hm')}>
+            HM Configurations
+          </button>
+          <button className={activeTab === 'client' ? 'active' : ''} onClick={() => handleTabClick('client')}>
+            Client Configurations
+          </button>
+          <button className={activeTab === 'epd' ? 'active' : ''} onClick={() => handleTabClick('epd')}>
+            EPD Configurations
+          </button>
+        </div>
+
+        <div className="container">
+          {/* Admin Credentials Section */}
+          <div className={`section ${activeTab === 'admin' ? 'active' : ''}`}>
+            <h2>Admin Credentials</h2>
+            <label>Camera Username</label>
+            <input type="text" />
+            <label>EAP Password</label>
+            <input type="password" />
+          </div>
+
+          {/* Venafi Configurations Section */}
+          <div className={`section ${activeTab === 'venafi' ? 'active' : ''}`}>
+            <h2>Venafi Configurations</h2>
+            <label>Venafi Username</label>
+            <input type="text" />
+            <label>Venafi Password</label>
+            <input type="password" />
+            <label>Venafi Private key Password</label>
+            <input type="password" />
+            <label>Venafi Base URL</label>
+            <input type="text" />
+            <label>Cert Prefix</label>
+            <input type="text" />
+            <label>Include chain</label>
+            <input type="text" />
+            <label>Include private key</label>
+            <input type="text" />
+          </div>
+
+          {/* Directory Configurations Section */}
+          <div className={`section ${activeTab === 'directory' ? 'active' : ''}`}>
+            <h2>Directory Configurations</h2>
+            <label>HM Logdir</label>
+            <input type="text" />
+            <label>Cam Triage Log</label>
+            <input type="text" />
+            <label>Input Folder</label>
+            <input type="text" />
+            <label>Cert Path</label>
+            <input type="text" />
+            <label>Tmp_folder</label>
+            <input type="text" />
+          </div>
+
+          {/* HM Configurations Section */}
+          <div className={`section ${activeTab === 'hm' ? 'active' : ''}`}>
+            <h2>HM Configurations</h2>
+            <label>HM Cam Log</label>
+            <input type="text" />
+            <label>HM dbCam Log</label>
+            <input type="text" />
+            <label>Packet Size</label>
+            <input type="text" />
+            <label>NVR PShell Script Path</label>
+            <input type="text" />
+            <label>psexec</label>
+            <input type="text" />
+          </div>
+
+          {/* Client Configurations Section */}
+          <div className={`section ${activeTab === 'client' ? 'active' : ''}`}>
+            <h2>Client Configurations</h2>
+            <label>Certchain file</label>
+            <input type="text" />
+            <label>CS Base URL</label>
+            <input type="text" />
+            <label>Client ID</label>
+            <input type="text" />
+            <label>Client Secret</label>
+            <input type="password" />
+            <label>Redirect URL</label>
+            <input type="text" />
+            <label>Format</label>
+            <input type="text" />
+            <label>State</label>
+            <input type="text" />
+          </div>
+
+          {/* EPD Configurations Section */}
+          <div className={`section ${activeTab === 'epd' ? 'active' : ''}`}>
+            <h2>EPD Configurations</h2>
+            <label>EPD Log Dir</label>
+            <input type="text" />
+            <label>EPD Log Username</label>
+            <input type="text" />
+            <label>EPD Log Password</label>
+            <input type="password" />
+          </div>
+          <div className="buttons">
+            <button>Save Configuration</button>
+            <button>Export Configuration</button>
+          </div>
+        </div>
+      </main>
+    </div>
+
+  );
+}
+
+export default App;
