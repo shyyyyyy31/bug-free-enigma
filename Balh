@@ -1,0 +1,82 @@
+.App {
+  font-family: 'Lato', Calibri, sans-serif;
+}
+
+.App-header {
+  background-color: #ba0c2f;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 20px;
+}
+
+.section {
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin: 10px;
+  width: 100%; /* Adjusted width to take full width */
+  box-sizing: border-box;
+  display: none; /* Initially hide all sections */
+}
+
+.section.active {
+  display: block; /* Display the active section */
+}
+
+.section h2 {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+  position: relative;
+  background: #f9f9f9;
+  padding: 0 5px;
+}
+
+.section label {
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.section input {
+  width: calc(100% - 20px);
+  padding: 10px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 0.9em;
+}
+
+.tabs {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end; /* Align tabs to the bottom */
+  border-bottom: 2px solid #ccc; /* Added border for the line effect */
+  margin-bottom: 20px;
+  padding-bottom: 10px; /* Added padding for space between tabs and sections */
+}
+
+.tabs button {
+  background-color: transparent;
+  color: #333;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
+}
+
+.tabs button.active {
+  background-color: #ba0c2f;
+  color: white;
+}
