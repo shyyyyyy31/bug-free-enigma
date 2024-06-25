@@ -1,0 +1,139 @@
+import React, { useState } from 'react';
+
+const TableWithAddEditRow = () => {
+  const [rows, setRows] = useState([
+    { id: 1, ipAddress: '192.168.1.1', auCode: 'AU123', locationId: 'LOC001', mac: '00:14:22:01:23:45', site: 'Site A', status: 'Active' },
+    { id: 2, ipAddress: '192.168.1.2', auCode: 'AU124', locationId: 'LOC002', mac: '00:14:22:01:23:46', site: 'Site B', status: 'Inactive' },
+  ]);
+  const [newRow, setNewRow] = useState({ ipAddress: '', auCode: '', locationId: '', mac: '', site: '' });
+  const [isAdding, setIsAdding] = useState(false);
+  const [editRowId, setEditRowId] = useState(null);
+  const [editRowData, setEditRowData] = useState({});
+
+  const handleAddRow = () => {
+    setIsAdding(true);
+    setEditRowId(null);
+  };
+
+  const handleSaveRow = () => {
+    setRows([...rows, { id: rows.length + 1, ...newRow, status: 'Active' }]);
+    setNewRow({ ipAddress: '', auCode: '', locationId: '', mac: '', site: '' });
+    setIsAdding(false);
+  };
+
+  const handleCancelRow = () => {
+    setNewRow({ ipAddress: '', auCode: '', locationId: '', mac: '', site: '' });
+    setIsAdding(false);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewRow({ ...newRow, [name]: value });
+  };
+
+  const handleEditRow = (row) => {
+    setEditRowId(row.id);
+    setEditRowData(row);
+    setIsAdding(false);
+  };
+
+  const handleEditInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditRowData({ ...editRowData, [name]: value });
+  };
+
+  const handleSaveEditRow = () => {
+    setRows(rows.map(row => (row.id === editRowId ? editRowData : row)));
+    setEditRowId(null);
+  };
+
+  const handleCancelEditRow = () => {
+    setEditRowId(null);
+    setEditRowData({});
+  };
+
+  return (
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>IP Address</th>
+            <th>AU Code</th>
+            <th>Location ID</th>
+            <th>MAC</th>
+            <th>Site</th>
+            <th>Actions</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row) => (
+            <tr key={row.id}>
+              {editRowId === row.id ? (
+                <>
+                  <td>{row.id}</td>
+                  <td><input type="text" name="ipAddress" value={editRowData.ipAddress} onChange={handleEditInputChange} /></td>
+                  <td><input type="text" name="auCode" value={editRowData.auCode} onChange={handleEditInputChange} /></td>
+                  <td><input type="text" name="locationId" value={editRowData.locationId} onChange={handleEditInputChange} /></td>
+                  <td><input type="text" name="mac" value={editRowData.mac} onChange={handleEditInputChange} /></td>
+                  <td><input type="text" name="site" value={editRowData.site} onChange={handleEditInputChange} /></td>
+                  <td>
+                    {/* Actions can be defined here */}
+                  </td>
+                  <td>{row.status}</td>
+                </>
+              ) : (
+                <>
+                  <td>{row.id}</td>
+                  <td>{row.ipAddress}</td>
+                  <td>{row.auCode}</td>
+                  <td>{row.locationId}</td>
+                  <td>{row.mac}</td>
+                  <td>{row.site}</td>
+                  <td>
+                    <button onClick={() => handleEditRow(row)}>Edit</button>
+                  </td>
+                  <td>{row.status}</td>
+                </>
+              )}
+            </tr>
+          ))}
+          {isAdding && (
+            <tr>
+              <td>{rows.length + 1}</td>
+              <td><input type="text" name="ipAddress" value={newRow.ipAddress} onChange={handleInputChange} /></td>
+              <td><input type="text" name="auCode" value={newRow.auCode} onChange={handleInputChange} /></td>
+              <td><input type="text" name="locationId" value={newRow.locationId} onChange={handleInputChange} /></td>
+              <td><input type="text" name="mac" value={newRow.mac} onChange={handleInputChange} /></td>
+              <td><input type="text" name="site" value={newRow.site} onChange={handleInputChange} /></td>
+              <td>
+                {/* Actions can be defined here */}
+              </td>
+              <td>Active</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+      <div>
+        {isAdding && (
+          <>
+            <button onClick={handleSaveRow}>Save New Row</button>
+            <button onClick={handleCancelRow}>Cancel New Row</button>
+          </>
+        )}
+        {editRowId !== null && (
+          <>
+            <button onClick={handleSaveEditRow}>Save Edit</button>
+            <button onClick={handleCancelEditRow}>Cancel Edit</button>
+          </>
+        )}
+        {!isAdding && editRowId === null && (
+          <button onClick={handleAddRow}>Add Record</button>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default TableWithAddEditRow;
